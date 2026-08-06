@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Project - NexaBoard</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<div class="header">
+    <h1>Add New Project</h1>
+    <p>Create a new project</p>
+</div>
+
+
+<div class="container">
+
+    <div class="card">
+
+        <label>Project Name</label><br><br>
+        <input type="text" placeholder="Enter project name"><br><br>
+
+
+        <label>Description</label><br><br>
+        <textarea placeholder="Enter description"></textarea><br><br>
+
+        <label>Project Status</label><br><br>
+
+<select>
+    <option>Planning</option>
+    <option>In Progress</option>
+    <option>Completed</option>
+</select>
+
+<br><br>
+        <button>Add Project</button>
+
+    </div>
+</div>
+
+<br>
+
+<center>
+    <a href="/projects/">
+        <button>⬅ Back to Projects</button>
+    </a>
+</center>
+
+</body>
+</html>
