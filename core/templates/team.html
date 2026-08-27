@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Team - NexaBoard</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h2>NexaBoard</h2>
+
+    <a href="/" class="{% if request.path == '/' %}active{% endif %}">
+    <span class="sidebar-icon">
+        <svg viewBox="0 0 24 24" width="17" height="17"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <path d="M3 10.5L12 3l9 7.5"></path>
+            <path d="M5 9.5V21h14V9.5"></path>
+            <path d="M9 21v-6h6v6"></path>
+        </svg>
+    </span>
+    Dashboard
+</a>
+    <a href="/projects/">
+        <span class="sidebar-icon">▣</span>
+        <span>Projects</span>
+    </a>
+
+    <a href="/add-project/">
+        <span class="sidebar-icon">＋</span>
+        <span>Add Project</span>
+    </a>
+
+    <a href="/tasks/">
+        <span class="sidebar-icon">☑</span>
+        <span>Tasks</span>
+    </a>
+
+    <a href="/team/" class="{% if request.path == '/team/' %}active{% endif %}">
+        <span class="sidebar-icon">♙</span>
+        <span>Team</span>
+    </a>
+    <a href="/logout/" class="logout-btn">
+        <span class="sidebar-icon">↪</span>
+        Logout
+    </a>
+
+</div>
+
+
+<div class="container">
+
+    <!-- TOP HEADER -->
+
+    <div class="top-header">
+
+        <div class="top-left">
+
+            <div class="menu-icon" id="menuIcon">☰</div>
+
+            <div>
+                <h1>Team</h1>
+                <p>Manage your team members</p>
+            </div>
+
+        </div>
+
+
+        <div class="top-right">
+
+            <div class="notification-icon" id="notificationIcon">
+                🔔
+            </div>
+
+
+            <div class="user-profile">
+
+                <div class="profile-main">
+
+                    <div class="profile-icon">
+                        <span class="avatar-person">●</span>
+                    </div>
+
+                    <span class="profile-name">
+                        {{ request.user.username }}
+                    </span>
+
+                    <span class="dropdown-arrow">▼</span>
+
+                </div>
+
+
+                <div class="profile-dropdown">
+
+                    <a href="#">Profile</a>
+
+                    <a href="#">Settings</a>
+
+                    <a href="/logout/">Logout</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ADD TEAM MEMBER BUTTON -->
+
+    <div class="team-heading-action">
+
+        <a href="/add-team-member/" class="add-task-btn">
+            + Add Team Member
+        </a>
+
+    </div>
+
+
+    <!-- TABLE HEADER -->
+
+    <div class="team-table-header">
+
+        <span>Member</span>
+
+        <span>Role</span>
+
+        <span>Email</span>
+
+        <span>Actions</span>
+
+    </div>
+
+
+    <!-- TEAM MEMBERS -->
+
+    {% for member in members %}
+
+    <div class="team-row">
+
+        <div class="team-column team-member">
+
+            <div class="member-avatar">
+                {{ member.name|first|upper }}
+            </div>
+
+            <strong>
+                {{ member.name }}
+            </strong>
+
+        </div>
+
+
+        <div class="team-column">
+
+            {{ member.role }}
+
+        </div>
+
+
+        <div class="team-column">
+
+            {{ member.email }}
+
+        </div>
+
+
+        <div class="team-column team-actions">
+
+            <a href="{% url 'edit_team_member' member.id %}"
+               class="edit-icon"
+               title="Edit">
+
+                ✏️
+
+            </a>
+
+
+            <a href="{% url 'delete_team_member' member.id %}"
+               class="delete-icon"
+               title="Delete"
+               onclick="return confirm('Are you sure you want to delete this team member?');">
+
+                🗑️
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    {% empty %}
+
+    <div class="card">
+
+        <h2>No Team Members</h2>
+
+        <p>Add your first team member.</p>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+<script>
+
+const profileMain = document.querySelector(".profile-main");
+const profileDropdown = document.querySelector(".profile-dropdown");
+
+if (profileMain && profileDropdown) {
+
+    profileMain.addEventListener("click", function () {
+
+        profileDropdown.classList.toggle("show");
+
+    });
+
+}
+
+</script>
+
+
+</body>
+</html>

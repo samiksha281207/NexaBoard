@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Profile - NexaBoard</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+
+    <h2>NexaBoard</h2>
+
+    <a href="{% url 'home' %}">
+        <span class="sidebar-icon">⌂</span>
+        Dashboard
+    </a>
+
+    <a href="{% url 'projects' %}">
+        <span class="sidebar-icon">▣</span>
+        Projects
+    </a>
+
+    <a href="{% url 'add_project' %}">
+        <span class="sidebar-icon">＋</span>
+        Add Project
+    </a>
+
+    <a href="{% url 'tasks' %}">
+        <span class="sidebar-icon">☑</span>
+        Tasks
+    </a>
+
+    <a href="{% url 'team' %}">
+        <span class="sidebar-icon">♙</span>
+        Team
+    </a>
+
+    <a href="{% url 'logout' %}" class="logout-btn">
+        <span class="sidebar-icon">↪</span>
+        Logout
+    </a>
+
+</div>
+
+
+<!-- Main Content -->
+<div class="main-content">
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+
+        <div class="menu-icon">☰</div>
+
+        <div class="top-right">
+
+            <div class="user-profile">
+
+                <div class="profile-main">
+
+                    <div class="profile-icon">
+                        <span class="avatar-person">●</span>
+                    </div>
+
+                    <span class="profile-name">
+                        {{ request.user.username }}
+                    </span>
+
+                    <span class="dropdown-arrow">▼</span>
+
+                </div>
+
+                <!-- Profile Dropdown -->
+                <div class="profile-dropdown">
+
+                    <a href="{% url 'profile' %}">
+                        👤 Profile
+                    </a>
+
+                    <a href="#">
+                        ⚙️ Settings
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Page Header -->
+    <div class="profile-page-header">
+
+        <h1>My Profile</h1>
+
+        <p>
+            Manage your account information and view your profile details.
+        </p>
+
+    </div>
+
+
+    <!-- Profile Card -->
+    <div class="profile-container">
+
+        <div class="profile-card">
+
+            <!-- Avatar -->
+            <div class="profile-avatar-large">
+                👤
+            </div>
+
+            <h2>
+                {{ request.user.username }}
+            </h2>
+
+            <p class="profile-role">
+                NexaBoard User
+            </p>
+
+
+            <!-- Account Information -->
+            <div class="profile-details">
+
+                <div class="profile-detail">
+
+                    <span class="detail-icon">👤</span>
+
+                    <div>
+                        <small>Username</small>
+
+                        <strong>
+                            {{ request.user.username }}
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="profile-detail">
+
+                    <span class="detail-icon">✉️</span>
+
+                    <div>
+                        <small>Email Address</small>
+
+                        <strong>
+                            {{ request.user.email|default:"Not provided" }}
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="profile-detail">
+
+                    <span class="detail-icon">🧑</span>
+
+                    <div>
+                        <small>First Name</small>
+
+                        <strong>
+                            {{ request.user.first_name|default:"Not provided" }}
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="profile-detail">
+
+                    <span class="detail-icon">🧑</span>
+
+                    <div>
+                        <small>Last Name</small>
+
+                        <strong>
+                            {{ request.user.last_name|default:"Not provided" }}
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Back Button -->
+            <div class="profile-actions">
+
+                <a href="{% url 'home' %}" class="profile-back-btn">
+                    ← Back to Dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+    const menuIcon = document.querySelector('.menu-icon');
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content');
+
+    menuIcon.addEventListener('click', function () {
+        sidebar.classList.toggle('sidebar-hidden');
+        mainContent.classList.toggle('main-expanded');
+    });
+</script>
+</body>
+</html>

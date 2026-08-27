@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tasks - NexaBoard</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<div class="sidebar">
+
+    <h2>NexaBoard</h2>
+
+    <a href="/" class="{% if request.path == '/' %}active{% endif %}">
+    <span class="sidebar-icon">
+        <svg viewBox="0 0 24 24" width="17" height="17"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <path d="M3 10.5L12 3l9 7.5"></path>
+            <path d="M5 9.5V21h14V9.5"></path>
+            <path d="M9 21v-6h6v6"></path>
+        </svg>
+    </span>
+    Dashboard
+</a>
+
+    <a href="/projects/">
+        <span class="sidebar-icon">▣</span>
+        <span>Projects</span>
+    </a>
+
+    <a href="/add-project/">
+        <span class="sidebar-icon">＋</span>
+        <span>Add Project</span>
+    </a>
+
+    <a href="/tasks/" class="{% if request.path == '/tasks/' %}active{% endif %}">
+        <span class="sidebar-icon">☑</span>
+        <span>Tasks</span>
+    </a>
+
+    <a href="/team/">
+        <span class="sidebar-icon">♙</span>
+        <span>Team</span>
+    </a>
+    <a href="/logout/" class="logout-btn">
+    <span class="sidebar-icon">↪</span>
+    Logout
+</a>
+
+</div>
+<div class="main-content">
+    <div class="top-bar">
+        <div class="menu-icon" id="menuIcon">☰</div>
+        <div class="top-right">
+
+    <div class="notification-icon" id="notificationIcon">
+    🔔
+
+    {% if notifications %}
+        <span class="notification-count">
+            {{ notifications|length }}
+        </span>
+    {% endif %}
+
+    <div class="notification-dropdown" id="notificationDropdown">
+
+        {% for notification in notifications %}
+            <div class="notification-item">
+                {{ notification.message }}
+                <small>{{ notification.created_at|date:"d M Y, H:i" }}</small>
+            </div>
+        {% empty %}
+            <div class="notification-item">
+                No new notifications
+            </div>
+        {% endfor %}
+
+    </div>
+</div>
+        
+
+        <div class="user-profile">
+            <div class="profile-main">
+                <div class="profile-icon">
+                    <span class="avatar-person">●</span>
+                </div>
+
+                <span class="profile-name">
+                    {{ request.user.username }}
+                </span>
+                <span class="dropdown-arrow">▼</span>
+            </div>
+
+        <div class="profile-dropdown">
+            <a href="/profile/">Profile</a>
+            <a href="#">Settings</a>
+            <a href="/logout/">Logout</a>
+        </div>
+    </div>
+
+</div>
+    <a href="/add-task/" class="add-task-btn">+ Add New Task</a>
+
+</div>
+
+
+
+
+<div class="task-filters">
+
+    <div class="task-search">
+    <span>⌕</span>
+    <input type="text" placeholder="Search tasks...">
+</div>
+
+    <select id="projectFilter">
+    <option value="">All Projects</option>
+
+    {% for project in projects %}
+        <option value="{{ project.id }}">{{ project.project_name }}</option>
+    {% endfor %}
+</select>
+
+    <select id="statusFilter">
+    <option value="">All Status</option>
+    <option value="Pending">Pending</option>
+    <option value="In Progress">In Progress</option>
+    <option value="Completed">Completed</option>
+</select>
+
+
+    <select id="priorityFilter">
+    <option value="">All Priority</option>
+    <option value="Low">Low</option>
+    <option value="Medium">Medium</option>
+    <option value="High">High</option>
+</select>
+
+</div>
+
+<div class="tasks-table-header">
+    <span>Task</span>
+    <span>Project</span>
+    <span>Status</span>
+    <span>Priority</span>
+    <span>Due Date</span>
+    <span>Assigned To</span>
+    <span>Actions</span>
+</div>
+
+
+{% for task in tasks %}
+
+
+    <div class="task-row"
+        data-project="{{ task.project.id }}"
+        data-status="{{ task.status }}"
+        data-priority="{{ task.priority }}"
+        data-name="{{ task.task_name|lower }}">
+        <a href="{% url 'task_detail' task.id %}">
+    <strong>{{ task.task_name }}</strong>
+</a>
+        <div class="task-column">
+            {{ task.project }}
+        </div>
+
+        <div class="task-column">
+    <span class="status-badge {{ task.status|lower|cut:' ' }}">
+        {{ task.status }}
+    </span>
+</div>
+        <div class="task-column">
+    <span class="priority-badge {{ task.priority|lower }}">
+        {{ task.priority }}
+    </span>
+</div>
+
+        <div class="task-column">
+            {{ task.due_date|date:"d M Y" }}
+        </div>
+
+        <div class="task-column assigned-user">
+            <span class="assigned-avatar avatar-{{ task.assigned_to|default:''|first|lower }}">
+                {{ task.assigned_to|default:''|first|upper }}
+            </span>
+            <span>{{ task.assigned_to|default:"Not Assigned" }}</span>
+        </div>
+
+    <div class="task-column task-actions">
+
+        <a href="/edit-task/{{ task.id }}/" title="Edit">
+            ✏️
+        </a>
+
+        <a href="/delete-task/{{ task.id }}/"
+        title="Delete"
+        onclick="return confirm('Are you sure you want to delete this task?');">
+            🗑️
+        </a>
+
+    </div>
+    </div>
+{% empty %}
+
+    <div class="card">
+        <h2>No Tasks</h2>
+        <p>Add your first task.</p>
+    </div>
+
+{% endfor %}
+
+</div>
+
+<br>
+
+<center>
+    <a href="/">
+        <button>⬅ Back to Dashboard</button>
+    </a>
+</center>
+<script>
+
+    
+const profileMain = document.querySelector(".profile-main");
+const profileDropdown = document.querySelector(".profile-dropdown");
+
+profileMain.addEventListener("click", function () {
+    profileDropdown.classList.toggle("show");
+});
+
+const searchInput = document.querySelector('.task-search input');
+const projectFilter = document.getElementById('projectFilter');
+const statusFilter = document.getElementById('statusFilter');
+const priorityFilter = document.getElementById('priorityFilter');
+function filterTasks() {
+
+    const searchValue = searchInput.value.toLowerCase().trim();
+    const selectedProject = projectFilter.value;
+    const selectedStatus = statusFilter.value;
+    const selectedPriority = priorityFilter.value;
+
+    const taskRows = document.querySelectorAll('.task-row');
+
+    taskRows.forEach(function(row) {
+
+        const taskName = row.dataset.name;
+        const project = row.dataset.project;
+        const status = row.dataset.status;
+        const priority = row.dataset.priority;
+
+        const matchesSearch = taskName.includes(searchValue);
+        const matchesProject = selectedProject === "" || project === selectedProject;
+        const matchesStatus = selectedStatus === "" || status === selectedStatus;
+        const matchesPriority = selectedPriority === "" || priority === selectedPriority;
+
+        if (
+            matchesSearch &&
+            matchesProject &&
+            matchesStatus &&
+            matchesPriority
+        ) {
+            row.style.display = "grid";
+        } else {
+            row.style.display = "none";
+        }
+
+    });
+}
+
+searchInput.addEventListener("input", filterTasks);
+projectFilter.addEventListener("change", filterTasks);
+statusFilter.addEventListener("change", filterTasks);
+priorityFilter.addEventListener("change", filterTasks);
+const notificationIcon = document.getElementById("notificationIcon");
+const notificationDropdown = document.getElementById("notificationDropdown");
+
+notificationIcon.addEventListener("click", function (event) {
+    event.stopPropagation();
+    notificationDropdown.classList.toggle("show");
+});
+
+document.addEventListener("click", function () {
+    notificationDropdown.classList.remove("show");
+});
+
+</script>
+</body>
+</html>

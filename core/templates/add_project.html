@@ -1,51 +1,71 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Project - NexaBoard</title>
+{% load static %}
 
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-<div class="header">
-    <h1>Add New Project</h1>
-    <p>Create a new project</p>
-</div>
+<div class="sidebar">
 
+    <h2>NexaBoard</h2>
+<a href="/" class="{% if request.path == '/' %}active{% endif %}">
+    <span class="sidebar-icon">
+        <svg viewBox="0 0 24 24" width="17" height="17"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <path d="M3 10.5L12 3l9 7.5"></path>
+            <path d="M5 9.5V21h14V9.5"></path>
+            <path d="M9 21v-6h6v6"></path>
+        </svg>
+    </span>
+    Dashboard
+</a>
 
-<div class="container">
-
-    <div class="card">
-
-        <label>Project Name</label><br><br>
-        <input type="text" placeholder="Enter project name"><br><br>
-
-
-        <label>Description</label><br><br>
-        <textarea placeholder="Enter description"></textarea><br><br>
-
-        <label>Project Status</label><br><br>
-
-<select>
-    <option>Planning</option>
-    <option>In Progress</option>
-    <option>Completed</option>
-</select>
-
-<br><br>
-        <button>Add Project</button>
-
-    </div>
-</div>
-
-<br>
-
-<center>
-    <a href="/projects/">
-        <button>⬅ Back to Projects</button>
+    <a href="/projects/" class="{% if request.path == '/projects/' %}active{% endif %}">
+        <span class="sidebar-icon">▣</span>
+        <span>Projects</span>
     </a>
-</center>
 
-</body>
-</html>
+    <a href="/add-project/" class="{% if request.path == '/add-project/' %}active{% endif %}">
+        <span class="sidebar-icon">＋</span>
+        <span>Add Project</span>
+    </a>
+
+    <a href="/tasks/" class="{% if request.path == '/tasks/' %}active{% endif %}">
+        <span class="sidebar-icon">☑</span>
+        <span>Tasks</span>
+    </a>
+
+    <a href="/team/" class="{% if request.path == '/team/' %}active{% endif %}">
+        <span class="sidebar-icon">♙</span>
+        <span>Team</span>
+    </a>
+
+    <a href="/logout/" class="logout-btn">
+        <span class="sidebar-icon">↪</span>
+        <span>Logout</span>
+    </a>
+
+</div>
+
+<div class="main-content">
+
+
+<div class="card form-card">
+
+    <h2>Add Project</h2>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Add Project</button>
+
+    </form>
+
+</div>
+
+
+</div>

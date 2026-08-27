@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Details - NexaBoard</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h2>NexaBoard</h2>
+
+    <a href="/">
+        <span class="sidebar-icon">⌂</span>
+        <span>Dashboard</span>
+    </a>
+
+    <a href="/projects/">
+        <span class="sidebar-icon">▣</span>
+        <span>Projects</span>
+    </a>
+
+    <a href="/add-project/">
+        <span class="sidebar-icon">＋</span>
+        <span>Add Project</span>
+    </a>
+
+    <a href="/tasks/" class="active">
+        <span class="sidebar-icon">☑</span>
+        <span>Tasks</span>
+    </a>
+
+    <a href="/team/">
+        <span class="sidebar-icon">♙</span>
+        <span>Team</span>
+    </a>
+
+    <a href="/logout/" class="logout-btn">
+        <span class="sidebar-icon">↪</span>
+        <span>Logout</span>
+    </a>
+
+</div>
+
+<div class="header">
+    <h1>{{ task.task_name }}</h1>
+    <p>Task Details</p>
+</div>
+
+<div class="container">
+
+    <div class="card form-card">
+
+        <h2>Description</h2>
+        <p>{{ task.description }}</p>
+
+        <h2>Status</h2>
+        <p>{{ task.status }}</p>
+
+        <h2>Comments</h2>
+
+        {% for comment in comments %}
+            <div class="comment">
+                <p>{{ comment.comment }}</p>
+                <small>{{ comment.created_at|date:"d M Y, H:i" }}</small>
+            </div>
+        {% empty %}
+            <p>No comments yet.</p>
+        {% endfor %}
+
+        <h3>Add Comment</h3>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">Add Comment</button>
+        </form>
+
+    </div>
+
+</div>
+
+<br>
+
+<center>
+    <a href="/tasks/">
+        <button>⬅ Back to Tasks</button>
+    </a>
+</center>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Project - NexaBoard</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <div class="sidebar">
+
+    <h2>NexaBoard</h2>
+
+    <a href="/" class="{% if request.path == '/' %}active{% endif %}">
+        <span class="sidebar-icon">⌂</span>
+        <span>Dashboard</span>
+    </a>
+
+    <a href="/projects/" class="{% if request.resolver_match.url_name == 'projects' or request.resolver_match.url_name == 'project_detail' or request.resolver_match.url_name == 'edit_project' %}active{% endif %}">
+        <span class="sidebar-icon">▣</span>
+        <span>Projects</span>
+    </a>
+    <a href="/add-project/" class="{% if request.path == '/add-project/' %}active{% endif %}">
+        <span class="sidebar-icon">＋</span>
+        <span>Add Project</span>
+    </a>
+
+    <a href="/tasks/" class="{% if request.path == '/tasks/' %}active{% endif %}">
+        <span class="sidebar-icon">☑</span>
+        <span>Tasks</span>
+    </a>
+
+    <a href="/team/" class="{% if request.path == '/team/' %}active{% endif %}">
+        <span class="sidebar-icon">♙</span>
+        <span>Team</span>
+    </a>
+
+    <a href="/logout/" class="logout-btn">
+        <span class="sidebar-icon">↪</span>
+        <span>Logout</span>
+    </a>
+
+</div>
+
+<div class="header">
+    <h1>Edit Project</h1>
+    <p>Update project details</p>
+</div>
+
+
+<div class="container">
+
+    <div class="card form-card edit-project-card">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">Update Project</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<br>
+
+<center>
+    <a href="/projects/">
+        <button>⬅ Back to Projects</button>
+    </a>
+</center>
+
+</body>
+</html>

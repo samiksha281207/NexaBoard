@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Settings - NexaBoard</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h2>NexaBoard</h2>
+
+    <a href="{% url 'home' %}">
+        <span class="sidebar-icon">⌂</span>
+        Dashboard
+    </a>
+
+    <a href="{% url 'projects' %}">
+        <span class="sidebar-icon">▣</span>
+        Projects
+    </a>
+
+    <a href="{% url 'add_project' %}">
+        <span class="sidebar-icon">＋</span>
+        Add Project
+    </a>
+
+    <a href="{% url 'tasks' %}">
+        <span class="sidebar-icon">☑</span>
+        Tasks
+    </a>
+
+    <a href="{% url 'team' %}">
+        <span class="sidebar-icon">♙</span>
+        Team
+    </a>
+
+    <a href="{% url 'logout' %}" class="logout-btn">
+        <span class="sidebar-icon">↪</span>
+        Logout
+    </a>
+
+</div>
+
+
+<div class="main-content">
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+
+        <div class="menu-icon">☰</div>
+
+        <div class="top-right">
+
+    <div class="user-profile">
+
+        <div class="profile-main">
+
+            <div class="profile-icon">
+                <span class="avatar-person">●</span>
+            </div>
+
+            <span class="profile-name">
+                {{ request.user.username }}
+            </span>
+
+            <span class="dropdown-arrow">▼</span>
+
+        </div>
+
+        <div class="profile-dropdown">
+
+            <a href="{% url 'profile' %}">
+                👤 Profile
+            </a>
+
+            <a href="{% url 'settings' %}">
+                ⚙️ Settings
+            </a>
+
+            <a href="{% url 'logout' %}">
+                ↪ Logout
+            </a>
+
+        </div>
+
+    </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- Header -->
+    <div class="settings-header">
+
+        <div>
+            <h1>Settings</h1>
+
+            <p>
+                Customize your NexaBoard experience and manage your account.
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- Settings Layout -->
+    <div class="settings-layout">
+
+        <!-- Account -->
+        <div class="settings-card">
+
+            <div class="settings-card-header">
+
+                <div class="settings-main-icon">
+                    👤
+                </div>
+
+                <div>
+                    <h2>Account</h2>
+                    <p>Manage your personal account information.</p>
+                </div>
+
+            </div>
+
+            <div class="settings-item">
+
+                <div>
+                    <strong>Profile Information</strong>
+                    <span>View your username and account details.</span>
+                </div>
+
+                <a href="{% url 'profile' %}" class="settings-action">
+                    View Profile
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Notifications -->
+        <div class="settings-card">
+
+            <div class="settings-card-header">
+
+                <div class="settings-main-icon">
+                    🔔
+                </div>
+
+                <div>
+                    <h2>Notifications</h2>
+                    <p>Control how you receive project updates.</p>
+                </div>
+
+            </div>
+
+            <div class="settings-item">
+
+                <div>
+                    <strong>Task Notifications</strong>
+                    <span>Receive alerts for task updates and deadlines.</span>
+                </div>
+
+                <label class="switch">
+
+                    <input type="checkbox" checked>
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+        
+
+            
+
+        
+
+
+        <!-- Security -->
+        <div class="settings-card">
+
+            <div class="settings-card-header">
+
+                <div class="settings-main-icon">
+                    🔒
+                </div>
+
+                <div>
+                    <h2>Security</h2>
+                    <p>Manage your account security.</p>
+                </div>
+
+            </div>
+
+            <div class="settings-item">
+
+                <div>
+                    <strong>Account Access</strong>
+                    <span>Sign out from your NexaBoard account.</span>
+                </div>
+
+                <a href="{% url 'logout' %}" class="settings-action danger">
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Back -->
+    <div class="settings-back">
+
+        <a href="{% url 'home' %}" class="profile-back-btn">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</div>
+<script>
+    const menuIcon = document.querySelector('.menu-icon');
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content');
+
+    menuIcon.addEventListener('click', function () {
+        sidebar.classList.toggle('sidebar-hidden');
+        mainContent.classList.toggle('main-expanded');
+    });
+</script>
+</body>
+</html>

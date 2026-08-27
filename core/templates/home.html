@@ -11,39 +11,297 @@
 
 <body>
     <div class="sidebar">
+
     <h2>NexaBoard</h2>
-    <a href="#">Dashboard</a>
-    <a href="#">Projects</a>
-    <a href="#">Tasks</a>
-    <a href="#">Team</a>
+
+    <a href="/" class="{% if request.path == '/' %}active{% endif %}"> 
+    <span class="sidebar-icon"> 
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" 
+             stroke="currentColor" stroke-width="2" 
+             stroke-linecap="round" stroke-linejoin="round"> 
+            <path d="M3 10.5L12 3l9 7.5"></path> 
+            <path d="M5 9.5V21h14V9.5"></path> 
+            <path d="M9 21v-6h6v6"></path> 
+        </svg> 
+    </span>
+
+    Dashboard
+</a>
+
+    <a href="/projects/" class="{% if request.path == '/projects/' %}active{% endif %}">
+        <span class="sidebar-icon">▣</span> Projects
+    </a>
+
+    <a href="/add-project/">
+        <span class="sidebar-icon">＋</span> Add Project
+    </a>
+
+    <a href="/tasks/">
+        <span class="sidebar-icon">☑</span> Tasks
+    </a>
+
+    <a href="/team/">
+        <span class="sidebar-icon">♙</span> Team
+    </a>
+
+    <a href="/logout/" class="logout-btn">
+        <span class="sidebar-icon">↪</span> Logout
+    </a>
+
 </div>
 
-<div class="header">
-    <h1>Dashboard</h1>
-    <p>Smart Project Management Dashboard</p>
-</div>
+
+
 
 
 <div class="container">
 
-    <h2>Projects</h2>
-    <h1>12</h1>
-    <p>Total Projects</p>
-    <a href="/projects/">
-    <button>View</button>
-</a>
+    <div class="top-header">
 
-    <h2>Tasks</h2>
-    <h1>48</h1>
-    <p>Total Tasks</p>
-    <button>View</button>
+        <div class="top-left">
 
+            <div class="menu-icon" id="menuIcon">☰</div>
 
-    <h2>Team</h2>
-    <h1>5</h1>
-    <p>Team Members</p>
-    <button>View</button>
+            <h2 class="welcome-user">
+                Welcome back, {{ request.user.username }}! 👋
+            </h2>
+
+        </div>
+
+        <div class="top-right"> 
+ 
+    <div class="notification-icon" id="notificationIcon">
+    🔔
+    {% if notifications %}
+        <span class="notification-badge">{{ notifications|length }}</span>
+    {% endif %}
 </div>
 
+    <div class="notification-dropdown" id="notificationDropdown">
+    <h3>Notifications</h3>
+
+    {% for notification in notifications %}
+        <p>🔔 {{ notification.message }}</p>
+    {% empty %}
+        <p>No new notifications.</p>
+    {% endfor %}
+</div>
+ 
+    <div class="user-profile">
+
+    <div class="profile-main">
+        <div class="profile-icon">
+            <span class="avatar-person">●</span>
+        </div>
+
+        <span class="profile-name">
+            {{ request.user.username }}
+        </span>
+
+        <span class="dropdown-arrow">▼</span>
+    </div>
+
+   <div class="profile-dropdown">
+    <a href="/profile/">👤 Profile</a>
+    <a href="{% url 'settings' %}">⚙️ Settings</a>
+</div>
+</div>
+
+        </div>
+
+    </div>
+
+    <h1 class="dashboard-title">Dashboard</h1>
+    <p class="dashboard-subtitle">Overview of your projects and tasks</p>
+    <!-- Project Statistics -->
+    <div class="stats-grid">
+
+    <div class="stat-card">
+        <div class="stat-icon">📁</div>
+        <div>
+            <h3>Total Projects</h3>
+            <h1>{{ total_projects }}</h1>
+            <a href="/projects/" class="stat-view-link">View all projects</a>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">📋</div>
+        <div>
+            <h3>Planning</h3>
+            <h1>{{ planning }}</h1>
+            <a href="/projects/?status=Planning" class="stat-view-link">View projects</a>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">🚀</div>
+        <div>
+            <h3>In Progress</h3>
+            <h1>{{ in_progress }}</h1>
+            <a href="/projects/?status=In%20Progress" class="stat-view-link">View projects</a>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div>
+            <h3>Completed</h3>
+            <h1>{{ completed }}</h1>
+            <a href="/projects/?status=Completed" class="stat-view-link">View projects</a>
+        </div>
+    </div>
+
+</div>
+    <!-- Task Statistics -->
+    <div class="stats-grid task-stats">
+
+        <div class="stat-card">
+            <div class="stat-icon">📝</div>
+            <div>
+                <h3>Total Tasks</h3>
+                <h1>{{ total_tasks }}</h1>
+                <a href="/tasks/" class="stat-view-link">View all tasks</a>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">⏳</div>
+            <div>
+                <h3>Pending Tasks</h3>
+                <h1>{{ pending_tasks }}</h1>
+                <a href="/tasks/?status=Pending" class="stat-view-link">View tasks</a>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">✔️</div>
+            <div>
+                <h3>Completed Tasks</h3>
+                <h1>{{ completed_tasks }}</h1>
+                <a href="/tasks/?status=Completed" class="stat-view-link">View tasks</a>
+            </div>
+        </div>
+
+        
+
+    </div>
+<div class="dashboard-bottom-row">
+
+<!-- Recent Projects -->
+<div class="recent-projects">
+
+    <div class="recent-projects-header">
+    <h2>Recent Projects</h2>
+    <a href="/projects/">View All →</a>
+</div>
+
+{% for project in recent_projects %}
+    <div class="recent-project">
+    <div>
+        <h3>{{ project.project_name }}</h3>
+    </div>
+
+    <span class="project-status-badge {{ project.status|lower|cut:' ' }}">
+        {{ project.status }}
+    </span>
+
+    <div class="project-due-date">
+        <small>Due date</small>
+        <span>{{ project.due_date|date:"d M Y" }}</span>
+    </div>
+</div>
+{% empty %}
+    <p>No projects available.</p>
+{% endfor %}
+</div>
+<div class="task-overview">
+
+    <div class="task-overview-header">
+        <div>
+            <h2>Task Overview</h2>
+            <p>Current task progress</p>
+        </div>
+    </div>
+
+    <div class="task-overview-content">
+
+        <div class="task-chart">
+            <div class="donut-chart"
+                style="--pending: {{ pending_tasks }}; --progress: {{ in_progress_tasks }}; --completed: {{ completed_tasks }};">
+                <div class="donut-center">
+                    <strong>{{ total_tasks }}</strong>
+                    <span>Total Tasks</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="task-status-list">
+
+            <div class="task-status-card">
+                <div class="status-info">
+                    <span class="status-dot pending"></span>
+                    <span>Pending</span>
+                </div>
+                <strong>{{ pending_tasks }}</strong>
+            </div>
+
+            <div class="task-status-card">
+                <div class="status-info">
+                    <span class="status-dot progress"></span>
+                    <span>In Progress</span>
+                </div>
+                <strong>{{ in_progress_tasks }}</strong>
+            </div>
+
+            <div class="task-status-card">
+                <div class="status-info">
+                    <span class="status-dot completed"></span>
+                    <span>Completed</span>
+                </div>
+                <strong>{{ completed_tasks }}</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+</div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const menuIcon = document.getElementById("menuIcon");
+const sidebar = document.querySelector(".sidebar");
+
+menuIcon.addEventListener("click", function () {
+    sidebar.classList.toggle("sidebar-hidden");
+    document.querySelector(".container").classList.toggle("content-expanded");
+});
+
+    const profileMain = document.querySelector(".profile-main");
+    const profileDropdown = document.querySelector(".profile-dropdown");
+
+    const notificationIcon = document.getElementById("notificationIcon");
+    const notificationDropdown = document.getElementById("notificationDropdown");
+
+    profileMain.addEventListener("click", function (event) {
+        event.stopPropagation();
+        profileDropdown.classList.toggle("show");
+    });
+
+    notificationIcon.addEventListener("click", function (event) {
+    event.stopPropagation();
+    notificationDropdown.classList.toggle("show");
+    });
+
+    document.addEventListener("click", function () {
+        profileDropdown.classList.remove("show");
+        notificationDropdown.classList.remove("show");
+    });
+
+});
+</script>
 </body>
 </html>

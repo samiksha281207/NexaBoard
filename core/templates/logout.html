@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logout - NexaBoard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logout-card {
+            width: 400px;
+            background: white;
+            padding: 40px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #777;
+            margin-bottom: 28px;
+        }
+
+        .login-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .login-btn:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="logout-card">
+
+    <div class="icon">👋</div>
+
+    <h1>Logged Out</h1>
+
+    <p>You have been successfully logged out of NexaBoard.</p>
+
+    <a href="/accounts/login/" class="login-btn">Login Again</a>
+
+</div>
+
+</body>
+</html>

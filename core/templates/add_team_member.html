@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Team Member - NexaBoard</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <div class="sidebar">
+    <h2>NexaBoard</h2>
+
+    <a href="/" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+        <span class="sidebar-icon">⌂</span>
+        <span>Dashboard</span>
+    </a>
+
+    <a href="/projects/" class="{% if request.resolver_match.url_name == 'projects' or request.resolver_match.url_name == 'project_detail' or request.resolver_match.url_name == 'edit_project' %}active{% endif %}">
+        <span class="sidebar-icon">▣</span>
+        <span>Projects</span>
+    </a>
+
+    <a href="/add-project/" class="{% if request.resolver_match.url_name == 'add_project' %}active{% endif %}">
+        <span class="sidebar-icon">＋</span>
+        <span>Add Project</span>
+    </a>
+
+    <a href="/tasks/" class="{% if request.resolver_match.url_name == 'tasks' or request.resolver_match.url_name == 'edit_task' %}active{% endif %}">
+        <span class="sidebar-icon">✓</span>
+        <span>Tasks</span>
+    </a>
+
+    <a href="/team/" class="{% if request.resolver_match.url_name == 'team' or request.resolver_match.url_name == 'edit_team_member' or request.resolver_match.url_name == 'add_team_member' %}active{% endif %}">
+        <span class="sidebar-icon">♟</span>
+        <span>Team</span>
+    </a>
+</div>
+
+<div class="header">
+    <h1>Add Team Member</h1>
+    <p>Add a new member to your team</p>
+</div>
+
+<div class="container">
+
+    <div class="card form-card">
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">Add Team Member</button>
+        </form>
+
+        <br>
+
+        <a href="/team/">
+            <button>⬅ Back to Team</button>
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
